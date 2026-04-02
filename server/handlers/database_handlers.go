@@ -10,9 +10,14 @@ import (
 	"time"
 
 	"github.com/meshery/meshery/server/models"
+	"github.com/meshery/meshery/server/models/connections"
+	_events "github.com/meshery/meshkit/models/events"
 	"github.com/meshery/meshkit/models/meshmodel/registry"
 	"github.com/meshery/meshkit/utils"
 	meshsyncmodel "github.com/meshery/meshsync/pkg/model"
+	"github.com/meshery/schemas/models/v1beta1/environment"
+	schemasOrganization "github.com/meshery/schemas/models/v1beta1/organization"
+	"github.com/meshery/schemas/models/v1beta1/workspace"
 	"github.com/spf13/viper"
 	"gorm.io/gorm/clause"
 )
@@ -179,9 +184,19 @@ func (h *Handler) ResetSystemDatabase(w http.ResponseWriter, r *http.Request, _ 
 			&models.PatternResource{},
 			&models.MesheryApplication{},
 			&models.UserPreference{},
+			&models.UserCapabilities{},
 			&models.PerformanceTestConfig{},
 			&models.SmiResultWithID{},
-			&models.K8sContext{},
+			models.K8sContext{},
+			schemasOrganization.Organization{},
+			models.Key{},
+			connections.Connection{},
+			environment.Environment{},
+			environment.EnvironmentConnectionMapping{},
+			workspace.Workspace{},
+			workspace.WorkspacesEnvironmentsMapping{},
+			workspace.WorkspacesDesignsMapping{},
+			_events.Event{},
 		)
 
 		if err != nil {
